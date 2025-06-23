@@ -1,9 +1,10 @@
+{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
+{-# HLINT ignore "Eta reduce" #-}
+{-# HLINT ignore "Redundant bracket" #-}
+
+
 module Library where
 import PdePreludat
-import Text.Read.Lex (Number)
-import Data.Ratio (numerator)
-import Distribution.Simple.Program.HcPkg (HcPkgInfo(recacheMultiInstance))
-import qualified Control.Applicative as etc
 
 doble :: Number -> Number
 doble numero = numero + numerator
@@ -130,8 +131,10 @@ Resultado:
 Receta {nombreReceta = "Bizcochuelo", tiempoCoccion = 60, cantidadMinimaIngredientes = 3, comentariosJueces = ["Muy esponjoso","Delicioso","mas simple"], enRevision = False, ajustes = [aj1,aj2,aj3,aj4]}
 -}
 
+--punto 6: ajustes infinitos
+
+--si hay ajustes infinitos, el foldr no va a terminar nunca, ya que no hay un caso base que detenga la recursion
 {-
-}
-Si hay reparaciones infinitas para el punto anterior no va a seguir operando el foldr y el siguiente elemento nunca va a tener un fin
+Si hay ajustes infinitos para el punto anterior no va a seguir operando el foldr y el siguiente elemento nunca va a tener un fin
 Para el punto 4, si en algun momento no mejora el scoring, el algoritmo converge a un valor por lazy evaluation. Si todas mejoran el scoring, el mismo diverge
 -}
