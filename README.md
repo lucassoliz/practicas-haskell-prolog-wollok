@@ -1,2 +1,2 @@
-# haskell-practicas
-Ejercicios y prácticas de Haskell para la facultad 
+# haskell-prolog-wollok-practicas
+Ejercicios y prácticas + resolucion 
