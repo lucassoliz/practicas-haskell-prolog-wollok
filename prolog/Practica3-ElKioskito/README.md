@@ -3,7 +3,7 @@
 ---
 ![prolog_resto_banner](https://th.bing.com/th/id/R.632aab350c938d507ee99fcd8f88c75b?rik=1MMekf9Yz5hWfQ&riu=http%3a%2f%2fvignette2.wikia.nocookie.net%2fsimpsons%2fimages%2fa%2faf%2fGirly_Edition_24.JPG%2frevision%2flatest%3fcb%3d20130723175034&ehk=O93LDUO%2fKYuoP5YJytWnW%2fEx%2fVffgJX6pzMsCCYWLsg%3d&risl=&pid=ImgRaw&r=0)
 
-## Enunciado
+## Enunciado 2021
 
 ### **El Kioskito**
 
@@ -121,11 +121,5 @@ La nota del parcial se asigna sobre 14 puntos y se interpreta de la siguiente ma
 - Con **7** o más la materia se aprueba.
 - Con **12** o más, se promociona directamente.
 - Menos de **7**, el parcial se considera desaprobado.
-
----
-
-## Nota
-
-La estructura, criterios de evaluación y el uso del paradigma lógico son similares a los anteriores parciales.
 
 ---
