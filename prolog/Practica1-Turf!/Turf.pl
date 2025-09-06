@@ -81,4 +81,77 @@ esPiolin(Jockey):-
 %generame todos los caballos que ganaron un premio importante
 %para cada uno de esos caballos, debe cumplirse que le guste ese jockey
 %=======================================================================================
+%PUNTO 5
+
+%TENEMOS que usar functor dentro del argumento de la regla
+%para que Prolog sepa que tipo de apuesta es 
+%La regla va a servir para saber si realmente gano la apuesta, pero para
+%saber que tipo de apuesta es, tenemos que usar functor
+
+%Le paso una lista de las posiciones finales de la carrera
+%Dependiendo de la posicion, y de la apuesta, se va a definir si gano o no
+
+salioPrimero(Caballo, [Caballo | _ ]).
+salioSegundo(Caballo, [_ , Caballo | _ ]).
+
+apuestaGanadora(ganador(Caballo), Resultados):-
+    salioPrimero(Caballo, Resultados).
+%hizo una apusta de tipo ganador con el caballo X, y X salio primero
+
+apustaGanadora(segundo(Caballo), Resultados):-
+    salioPrimero(Caballo, Resultados).
+apuestaGanadora(segundo(Caballo), Resultados):-
+    salioSegundo(Caballo, Resultados).
+%hizo una apusta de tipo segundo con el caballo X, y X salio primero o segundo
+
+apuestaGanadora(exacta(Caballo1, Caballo2), Resultados):-
+    salioPrimero(Caballo1, Resultados),
+    salioSegundo(Caballo2, Resultados),
+    Caballo1 \= Caballo2. %igual no puede ser el mismo caballo porque no puede salir primero y segundo a la vez
+
+apuestaGanadora(imperfecta(Caballo1, Caballo2), Resultados):-
+    salioPrimero(Caballo1, Resultados),
+    salioSegundo(Caballo2, Resultados).
+apuestaGanadora(imperfecta(Caballo1, Caballo2), Resultados):-
+    salioSegundo(Caballo1, Resultados),
+    salioPrimero(Caballo2, Resultados).
+%hizo una apuesta de tipo imperfecta con los caballos X e Y, y X e Y salieron primero y segundo en cualquier orden
+
+%=======================================================================================
+%PUNTO 6
+crin(botafogo, tordo).
+crin(oldMan, alazan).
+crin(energica, ratonero).
+crin(matBoy, palomino).
+crin(yatasto, pinto).
+
+color(tordo, negro).
+color(alazan, marron).
+color(ratonero, gris).
+color(ratonero, negro).
+color(palomino, marron).
+color(palomino, blanco).
+color(pinto, blanco).
+color(pinto, marron).
+
+
+%El comprador puede elegir que color de caballo comprar, para ello, le debe mostrar todos los caballos
+%posibles que puede comprar de ese color
+%entiendo que le entrega una lista de cabalos, y pregunta que de esa lista, que caballos son de ese color
+
+comprarCaballo(Color, CaballosElegir):-
+    findall(Caballo , %variable
+        (  crin(Caballo, Crin) , color(Crin, Color) ),  %condiciones a cumplir
+/*Lectura: Te pido color marron, dame el Crin del caballo marron,
+dame los caballos de ese crin // si cambiamos el orden de las condiciones no afecta */
+        CaballosDeEseColor),
+          combinar(CaballosPosibles, Caballos), %opciones a elegir
+  Caballos \= []. %POR LO MENOS UN CABALLO ----> NO VACIO
+
+
+
+%tipico combinatoria
+combinar([], []).
+combinar([Caballo|CaballosPosibles], [Caballo|Caballos]):-combinar(CaballosPosibles, Caballos).
+combinar([_|CaballosPosibles], Caballos):-combinar(CaballosPosibles, Caballos).
 
