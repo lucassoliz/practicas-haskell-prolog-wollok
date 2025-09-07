@@ -123,3 +123,4 @@ La nota del parcial se asigna sobre 14 puntos y se interpreta de la siguiente ma
 - Menos de **7**, el parcial se considera desaprobado.
 
 ---
+- 
