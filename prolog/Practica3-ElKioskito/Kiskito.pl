@@ -80,3 +80,6 @@ foreverAlone(Persona, Dia, Hora):-
 % Persona = juanC, Dia = sabados, Hora = 18;
 
 %=========================================================================================
+
+%test
+
