@@ -170,3 +170,33 @@ esImportante(cigarrillos(Marcas)) :-
 esImportante(bebida(_, alcoholico)).
 esImportante(bebida(Cantidad, noAlcoholico)) :-
     Cantidad > 5.
+
+%====================================================================
+%PUNTO 6 EXTRA ~ para practicar un poco mas
+
+/*Queremos saber si una persona vendedora es trabajólica. 
+Esto ocurre si para todas las ventas que hizo, la cantidad de golosinas 
+vendidas es mayor a la cantidad de bebidas vendidas 
+(sin importar si son alcohólicas o no). 
+El predicado debe ser inversible: dodain es trabajólico, lucas y martu no lo son.
+*/
+
+esTrabajolico(Persona):-
+    venta(Persona, _, _), %generador
+    forall(venta(Persona, _, VentasDelDia), %para todas las ventas del dia
+        esMayorGolosinasQueBebidas(VentasDelDia)). %debe cumplirse que haya mas golosinas que bebidas
+
+    esMayorGolosinasQueBebidas(VentasDelDia):-
+        %sin usar sumlist, lo hacemos a mano
+        contarGolosinasYBebidas(VentasDelDia, CantGolosinas,CantBebidas),
+        CantGolosinas > CantBebidas.
+
+    contarGolosinasYBebidas([], 0, 0). %caso base
+    contarGolosinasYBebidas([golosinas(_)|Resto], CantGolosinas, CantBebidas):-
+        contarGolosinasYBebidas(Resto, CantGolosinasResto, CantBebidas),
+        CantGolosinas is CantGolosinasResto + 1.
+    contarGolosinasYBebidas([bebida(_, _)|Resto], CantGolosinas, CantBebidas):-
+        contarGolosinasYBebidas(Resto, CantGolosinas, CantBebidasResto),
+        CantBebidas is CantBebidasResto + 1.
+
+    
