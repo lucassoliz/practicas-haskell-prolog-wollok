@@ -90,3 +90,84 @@ esAtraccionCopada(excursion(Nombre)):-
     atom_length(Nombre, CantidadLetras),
     CantidadLetras > 7.
 %============================================================================
+%PUNTO 3
+noSeCruzaron(Persona1, Persona2) :-
+    destino(Persona1, _),     % generador
+    destino(Persona2, _),     % generador
+    Persona1 \= Persona2,     % que no sea la misma persona
+    not((destino(Persona1, LugarComun), destino(Persona2, LugarComun))). % no tienen ningun destino en comun 
+%Osea no existe un LugarComun que sea destino de ambas personas
+
+/*  Ejemplos de consultas:
+?- noSeCruzaron(dodain, nico).
+true.
+consultas existenciales:
+?- noSeCruzaron(dodain, Persona).
+Persona = nico ; Persona = vale ; false.
+*/
+%============================================================================
+%PUNTO 4
+costoDeVida(sarmiento, 100).
+costoDeVida(esquel, 150).
+costoDeVida(pehuensia, 180).
+costoDeVida(sanMartin, 150).
+costoDeVida(camarones, 135).
+costoDeVida(playasDoradas, 170).
+costoDeVida(bariloche, 140).
+costoDeVida(calafate, 240).
+costoDeVida(elBolson, 145).
+costoDeVida(marDelPlata, 140).
+
+vacacionesGasoleras(Persona):-
+    destino(Persona, _), %generador
+    forall(destino(Persona, Lugar), %para todos los lugares a los que va la persona
+        (costoDeVida(Lugar, Costo), Costo < 160)). %debe cumplirse que el costo de vida sea menor a 160
+
+%============================================================================
+%PUNTO 5
+/*nQueremos conocer todas las formas de armar el itinerario de un viaje para una persona sin importar el recorrido. Para eso todos los destinos tienen que aparecer en la solución (no pueden quedar destinos sin visitar).
+
+Por ejemplo, para Alf las opciones son
+[bariloche, sanMartin, elBolson]
+[bariloche, elBolson, sanMartin]
+[sanMartin, bariloche, elBolson]
+[sanMartin, elBolson, bariloche]
+[elBolson, bariloche, sanMartin]
+[elBolson, sanMartin, bariloche]
+
+(claramente no es lo mismo ir primero a El Bolsón y después a Bariloche que primero a Bariloche y luego a El Bolsón, pero el itinerario tiene que incluir los 3 destinos a los que quiere ir Alf).
+
+*/
+
+/*combinacion([], []).
+combinacion([Primero | Resto]), [Primero | CombinacionResto]) :-
+    combinacion(Resto, CombinacionResto).
+combinacion([_ | Resto], CombinacionResto) :-
+    combinacion(Resto, CombinacionResto).
+
+NO corresponde, es combinacion   A, B, C  --> [], [A], [B], [A, B]*/
+
+
+/*      ?- itinerario(alf, Itinerario).
+            Itinerario = [bariloche, elBolson, sanMartin] ;
+            Itinerario = [sanMartin, bariloche, elBolson] ;
+            Itinerario = [sanMartin, elBolson, bariloche] ;
+            Itinerario = [elBolson, bariloche, sanMartin] ;
+            Itinerario = [elBolson, sanMartin, bariloche].
+
+*/
+itinerario(Persona, Itinerario) :-
+    findall(Lugar, destino(Persona, Lugar), Destinos), % obtengo todos los destinos de la persona
+    Destinos \= [],                                    % me aseguro que la persona tenga destinos
+    permutacion(Destinos, Itinerario).    % genero todas las permutaciones de los destinos
+%Ahora dames todas las permutaciones de la lista de destinos (osea lo que me va a devolver en Itinerario)
+
+permutacion([], []).
+
+permutacion(ListaOriginal, [Elemento | ListaPermutada]) :-
+    sacar(Elemento, ListaOriginal, ListaRestante),
+    permutacion(ListaRestante, ListaPermutada).
+
+sacar(Elemento, [Elemento | Resto], Resto).
+sacar(Elemento, [Cabeza | Resto], [Cabeza | RestoSinElemento]) :-
+    sacar(Elemento, Resto, RestoSinElemento).
