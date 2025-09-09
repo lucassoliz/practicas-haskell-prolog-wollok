@@ -80,6 +80,93 @@ foreverAlone(Persona, Dia, Hora):-
 % Persona = juanC, Dia = sabados, Hora = 18;
 
 %=========================================================================================
+%PUNTO 4
 
-%test
+%POSIBILIDADES   ---> COMBINATORIA
+/*
+generarUnaCombinacion([], []).
+generarUnaCombinacion([Primero|ListaRestante], [Primero|Combinacion]):-
+	generarUnaCombinacion(ListaRestante, Combinacion).
+generarUnaCombinacion([_|ListaRestante], Combinacion):-
+	generarUnaCombinacion(ListaRestante, Combinacion).
+*/
 
+%Quien atiende los miercoles
+%En que momento esta atendiendo || NO CORRESPONDE
+%en "algun momento de ese dia", NO en que momento ---> No usamos horarioPuntual
+
+quienAtiende(Persona, Dia):-
+    findall(Persona, atiende(Persona, Dia, _), PersonaQueAtiende),
+%generamos todas las personas que atienden ese dia, y lo ponemos en una lista, para
+%hacer todas sus posibilidades (combinatoria)
+    generarUnaCombinacion(PersonaQueAtiende, Persona).
+
+
+  generarUnaCombinacion([], []).
+generarUnaCombinacion([Primero|ListaRestante], [Primero|Combinacion]):-
+	generarUnaCombinacion(ListaRestante, Combinacion).
+generarUnaCombinacion([_|ListaRestante], Combinacion):-
+	generarUnaCombinacion(ListaRestante, Combinacion).
+
+% Qué conceptos en conjunto resuelven este requerimiento
+% - findall como herramienta para poder generar un conjunto de soluciones que satisfacen un predicado
+% - mecanismo de backtracking de Prolog permite encontrar todas las soluciones posibles
+
+%=========================================================================================
+%PUNTO 5
+/*En el kiosko tenemos por el momento tres ventas posibles:
+
+Golosinas: registramos el valor en plata.
+Cigarrillos: registramos todas las marcas de cigarrillos que se vendieron (ej: Marlboro y Particulares).
+Bebidas: registramos si son alcohólicas y la cantidad.
+Agregar las siguientes cláusulas:
+
+dodain hizo las siguientes ventas el lunes 10 de agosto: golosinas por $1200, cigarrillos Jockey, golosinas por $50.
+dodain hizo las siguientes ventas el miércoles 12 de agosto: 8 bebidas alcohólicas, 1 bebida no-alcohólica, golosinas por $10.
+martu hizo las siguientes ventas el miércoles 12 de agosto: golosinas por $1000, cigarrillos Chesterfield, Colorado y Parisiennes.
+lucas hizo las siguientes ventas el martes 11 de agosto: golosinas por $600.
+lucas hizo las siguientes ventas el martes 18 de agosto: 2 bebidas no-alcohólicas y cigarrillos Derby.
+Queremos saber si una persona vendedora es suertuda. Esto ocurre si para todos los días en los que vendió, la primera venta que hizo fue importante. Una venta es importante:
+
+En el caso de las golosinas, si supera los $100.
+En el caso de los cigarrillos, si tiene más de dos marcas.
+En el caso de las bebidas, si son alcohólicas o son más de 5.
+El predicado debe ser inversible: martu y dodain son personas suertudas.
+*/
+
+%una solucion podria ser:
+% Hechos corregidos: cigarrillos como lista
+venta(dodain, fecha(10, 8), [golosinas(1200), cigarrillos([jockey]), golosinas(50)]).
+venta(dodain, fecha(12, 8), [bebida(8, alcoholico), bebida(1, noAlcoholico), golosinas(10)]).
+
+venta(martu, fecha(12, 8), [golosinas(1000), cigarrillos([chesterfield, colorado, parisiennes])]).
+
+venta(lucas, fecha(11, 8), [golosinas(600)]).
+venta(lucas, fecha(18, 8), [bebida(2, noAlcoholico), cigarrillos([derby])]).
+
+/*Lo podriamos haber puesto como functor, el problema, que despues se nos complica
+a la hora de tomar la primera venta, por eso, vamos a trabajar con,listas
+
+y la primera venta, sera el primer elemento de la lista, es decir:
+        [PrimeraVenta | _ ]
+
+Asi tomamos el primer elemento y analizamos si. . . 
+    cumple alguna de las 3 condiciones  */
+
+% suertuda: todas sus primeras ventas del día son importantes
+esSuertuda(Persona) :-
+    venta(Persona, _, _),   % generador,  me restringe mis opciones
+    forall(venta(Persona, _, [PrimeraVenta|_]),
+           esImportante(PrimeraVenta)).
+
+% Importancia de ventas
+esImportante(golosinas(Valor)) :-
+    Valor > 100.
+
+esImportante(cigarrillos(Marcas)) :-
+    length(Marcas, Cantidad),
+    Cantidad > 2. 
+
+esImportante(bebida(_, alcoholico)).
+esImportante(bebida(Cantidad, noAlcoholico)) :-
+    Cantidad > 5.
