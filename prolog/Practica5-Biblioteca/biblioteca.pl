@@ -138,8 +138,11 @@ esFenomeno(Lector):-
 %======================================================
 %PUNTO 10 extra
 %SABER SI UN LECTOR ES UN LECTOR NOVATO
-%Un lector es novato si no es fiel, no es avanzado y no es top
+%Un lector es novato si no es fiel, no es avanzado y no es top y que sea inversible
+
 esNovato(Lector):-
+    lector(Lector, _, _), %generador
     not(esFiel(Lector)),
     not(esAvanzado(Lector)),
     not(esTop(Lector)).
+
