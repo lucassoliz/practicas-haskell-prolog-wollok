@@ -94,8 +94,10 @@ generarUnaCombinacion([_|ListaRestante], Combinacion):-
 %Quien atiende los miercoles
 %En que momento esta atendiendo || NO CORRESPONDE
 %en "algun momento de ese dia", NO en que momento ---> No usamos horarioPuntual
+%que sea inversible
 
 quienAtiende(Persona, Dia):-
+    atiende(Persona, Dia, _), %generador
     findall(Persona, atiende(Persona, Dia, _), PersonaQueAtiende),
 %generamos todas las personas que atienden ese dia, y lo ponemos en una lista, para
 %hacer todas sus posibilidades (combinatoria)
