@@ -116,25 +116,6 @@ generarUnaCombinacion([_|ListaRestante], Combinacion):-
 
 %=========================================================================================
 %PUNTO 5
-/*En el kiosko tenemos por el momento tres ventas posibles:
-
-Golosinas: registramos el valor en plata.
-Cigarrillos: registramos todas las marcas de cigarrillos que se vendieron (ej: Marlboro y Particulares).
-Bebidas: registramos si son alcohólicas y la cantidad.
-Agregar las siguientes cláusulas:
-
-dodain hizo las siguientes ventas el lunes 10 de agosto: golosinas por $1200, cigarrillos Jockey, golosinas por $50.
-dodain hizo las siguientes ventas el miércoles 12 de agosto: 8 bebidas alcohólicas, 1 bebida no-alcohólica, golosinas por $10.
-martu hizo las siguientes ventas el miércoles 12 de agosto: golosinas por $1000, cigarrillos Chesterfield, Colorado y Parisiennes.
-lucas hizo las siguientes ventas el martes 11 de agosto: golosinas por $600.
-lucas hizo las siguientes ventas el martes 18 de agosto: 2 bebidas no-alcohólicas y cigarrillos Derby.
-Queremos saber si una persona vendedora es suertuda. Esto ocurre si para todos los días en los que vendió, la primera venta que hizo fue importante. Una venta es importante:
-
-En el caso de las golosinas, si supera los $100.
-En el caso de los cigarrillos, si tiene más de dos marcas.
-En el caso de las bebidas, si son alcohólicas o son más de 5.
-El predicado debe ser inversible: martu y dodain son personas suertudas.
-*/
 
 %una solucion podria ser:
 % Hechos corregidos: cigarrillos como lista
