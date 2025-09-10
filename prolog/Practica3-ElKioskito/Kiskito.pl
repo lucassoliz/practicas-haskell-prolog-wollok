@@ -139,7 +139,8 @@ Asi tomamos el primer elemento y analizamos si. . .
 % suertuda: todas sus primeras ventas del día son importantes
 esSuertuda(Persona) :-
     venta(Persona, _, _),   % generador,  me restringe mis opciones
-    forall(venta(Persona, _, [PrimeraVenta|_]),
+    forall(venta(Persona, _, [PrimeraVenta|_]), %se lee como: para toda venta que hizo la persona,
+    % debe cumplirse que la primera venta del dia
            esImportante(PrimeraVenta)).
 
 % Importancia de ventas
@@ -181,6 +182,16 @@ esTrabajolico(Persona):-
     contarGolosinasYBebidas([bebida(_, _)|Resto], CantGolosinas, CantBebidas):-
         contarGolosinasYBebidas(Resto, CantGolosinas, CantBebidasResto),
         CantBebidas is CantBebidasResto + 1.
+
+%contador generico 
+contar([],0).
+contar([_|Cola], Cantidad):-
+    contar(Cola, CantidadCola),
+    Cantidad is CantidadCola + 1.
+
+
+
+
 
 %====================================================================
 %PUNTO 7 EXTRA ~ para practicar un poco mas

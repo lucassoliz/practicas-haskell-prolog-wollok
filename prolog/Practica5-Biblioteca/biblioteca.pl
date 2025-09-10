@@ -55,7 +55,7 @@ evento("Encuentro de poesia", poesia, fecha(22,9,2025), pabloNeruda).
 evento("Ciencia ficcion en la Biblioteca", cienciaFiccion, fecha(30,9,2025), isaacAsimov).
 
 puedeParticipar(Lector, Evento):-
-    evento(Evento, Tematica, _, AutorPrincipal), %generador
+    evento(Evento, _ , _, AutorPrincipal), %generador
     libro(LibroTitulo, _, AutorPrincipal, _), %generador
     leyo(Lector, LibroTitulo). %filtro
 
