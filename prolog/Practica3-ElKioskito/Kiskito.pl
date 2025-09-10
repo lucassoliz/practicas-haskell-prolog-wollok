@@ -199,4 +199,30 @@ esTrabajolico(Persona):-
         contarGolosinasYBebidas(Resto, CantGolosinas, CantBebidasResto),
         CantBebidas is CantBebidasResto + 1.
 
-    
+%====================================================================
+%PUNTO 7 EXTRA ~ para practicar un poco mas
+/*Queremos saber si una persona vendedora es popular.
+Esto ocurre si la cantidad de días distintos en los que vendió es mayor a 2
+(sin importar la cantidad de ventas que haya hecho en cada día).
+El predicado debe ser inversible: dodain y lucas son populares, martu no lo es.
+sin usar list_to_set
+*/
+
+esPopular(Persona):-
+    venta(Persona, _, _), %generador
+    findall(Dia, venta(Persona, Dia, _), DiasVendidos), %generador + filtro
+    eliminarRepetidos(DiasVendidos, DiasSinRepetidos), %filtro
+    length(DiasSinRepetidos, CantidadDias), %cantidad de dias sin repetidos
+    CantidadDias > 2. %filtro
+
+eliminarRepetidos([], []). %caso base
+eliminarRepetidos([Cabeza|Cola], [Cabeza|Resultado]) :-
+    not(pertenece(Cabeza, Cola)), %si no pertenece a la cola, lo agrego al resultado
+    eliminarRepetidos(Cola, Resultado).
+eliminarRepetidos([Cabeza|Cola], Resultado) :-
+    pertenece(Cabeza, Cola), %si pertenece a la cola, no lo agrego al resultado
+    eliminarRepetidos(Cola, Resultado).
+pertenece(Elem, [Elem|_]). %caso base
+pertenece(Elem, [_|Cola]) :-
+    pertenece(Elem, Cola).
+%====================================================================
