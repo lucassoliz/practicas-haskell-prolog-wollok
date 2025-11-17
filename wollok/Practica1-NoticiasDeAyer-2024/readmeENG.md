@@ -5,7 +5,7 @@ A major multimedia network wants to modernize its digital newspaper. Following a
 ![wollok_resto_banner](https://images.impresa.pt/sicnot/2021-09-23-SIMPSONS.jpg-95326601-2)
 ---
 
-## Point 1) Chocolate for the News (4 points)
+## Point 1 Chocolate for the News (4 points)
 
 ### Basic Article Structure
 
@@ -29,7 +29,7 @@ Additionally, it must meet the specific condition for its style:
 
 ---
 
-## Point 2) The Pelican Report (3 points)
+## Point 2 The Pelican Report (3 points)
 
 As mentioned, news items or articles are published by **journalists**, whose entry date and preferences we know:
 
@@ -40,7 +40,7 @@ As mentioned, news items or articles are published by **journalists**, whose ent
 
 ---
 
-## Point 3) Front Page (3 points)
+## Point 3 Front Page (3 points)
 
 We want to publish a new news item, for which:
 
@@ -54,7 +54,7 @@ We want this functionality to incorporate the validations required by the busine
 
 ---
 
-## Point 4) The Fourth Estate (2 points)
+## Point 4 The Fourth Estate (2 points)
 
 We want to be able to determine which **recent journalists** published a news item in the **last week**. **Recent Journalists** are those who joined the multimedia network **one year ago or less**. Explicit consideration must be given to **delegation** and the implementation of **declarative solutions**.
 
