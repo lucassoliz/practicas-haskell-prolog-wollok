@@ -1,4 +1,3 @@
-````markdown name=README.md
 El Asadito
 
 Es un día precioso. Alrededor de la mesa, varios amigos entre los que se destacan Facu, Moni, Osky y Vero están dispuestos a compartir un asado entre amigos. Te pedimos que ayudes a modelar esta situación a través del paradigma OO.
@@ -53,4 +52,3 @@ Justificar por qué y qué ventajas le dio.
 7 => 4,
 6 => 3,
 menos de 6 => 2.
-````
