@@ -1,0 +1,9 @@
+import final.*
+
+test "Crear KameHameHa con Kaioken 10" {
+    const kamehamehaPotenciado = new KameHameHa(nivelKaioken=10)
+    // no falta un assert??
+}
+test "Crear Patada no potenciada" {
+    const patadaNoPotenciada = new Patada(nivelKaioken=1)
+}
