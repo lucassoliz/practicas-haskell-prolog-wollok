@@ -73,6 +73,6 @@ lo anterior, junto con las respuestas obtenidas.
 ## Links
 
 * [Código de los profes (consignas incluidas)](https://github.com/pdep-lunes/pdep-clases-2023/blob/main/Logico/Clase03/clase03.pl)
-* [Clase 1 (Bitácora)](https://pdep-lunes.github.io/bitacora/2025/logico/clase-13/)
-* [Clase 2 (Bitácora)](https://pdep-lunes.github.io/bitacora/2025/logico/clase-14/)
+* [Clase 2 (Bitácora)](https://pdep-lunes.github.io/bitacora/2025/logico/clase-13/)
+* [Clase 3 (Bitácora)](https://pdep-lunes.github.io/bitacora/2025/logico/clase-14/)
 * [¿Quién ayuda al Rasta?](https://docs.google.com/document/d/1JVjGLws_uPKNGgB5XuSC32IsScqSt4lHwiP_VrUwyog/edit#heading=h.oit40igazgjk)
