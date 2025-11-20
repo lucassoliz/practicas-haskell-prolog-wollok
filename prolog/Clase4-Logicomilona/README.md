@@ -79,7 +79,6 @@ Los posibles estilos tienen la siguiente forma:
 A partir de estos hechos, definí los siguientes predicados teniendo en cuenta
 que deben ser totalmente inversibles.
 
-```
 1. 😎esCrack/1: un o una chef es crack si trabaja en por lo menos dos
    restaurantes o cocina pad thai.
 2. 🍙esOtaku/1: un o una chef es otaku cuando solo trabaja en restaurantes de
@@ -101,4 +100,3 @@ que deben ser totalmente inversibles.
    segundo.
 7. 👍calificacionGastronomica/2: la calificación de un restaurante es 5 veces
    la cantidad de platos que elabora el o la chef de este restaurante. 
-```
