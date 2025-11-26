@@ -1,5 +1,4 @@
 
-
 /* =================== 1) ==================
 Noticia:
     - fechaDePublicacion
@@ -39,6 +38,13 @@ Tipos de Noticia:
         + quierePublicarNoticiaSensacionalista() //Otros --> tiene que tener la palabra “espectacular”, “increíble”, o “grandioso” 
         + quierePublicarNoticiasVagas() //Estan los vagos --> solo chivos o desarrollo < 100 palabras
         + quierePublicarNoticiasDeTituloConT() //Jose De Zer --> titulo comienza con "T"
+*/
+/* =================== 3) ==================
+    Noticia:
+        + esBienEscrita(): titulo.palabras >= 2 && desarrollo 
+
+    --> Periodista: solo puede publicar 2 noticias que no prefiere por dia
+    --> Noticia: +esBienEscrita()
 */
 class Noticia {
     const property fechaDePublicacion // solo getter porque no deberia cambiarse nunca en teoria
@@ -82,6 +88,26 @@ CONSTAINS: se fija si esa palabraElementoLista esta dentro del titulo EJ: titulo
 
     method tituloComienzaCon(letra) = titulo.startsWith(letra) //importante generalizar con parametro letra, mas flexible
 // startsWith basicamente se fija el primer caracter de la cadena de texto y lo compara con la letra dada, si coinciden devuelve true
+
+// ============= 3) ==============================
+//"y en caso de no cumplir alguna regla defina de qué manera debe responder." --> usamos excepciones
+    method esPreferidaPorAutor() = autor.prefiere(self) //!! el self es para que el periodista se fije si prefiere esta noticia, es una forma de pasarle el objeto actual al metodo prefiere del periodista
+    method esDeLaFecha(fecha) = fechaDePublicacion == fecha
+    method validarBienEscrita() {//"un título que tenga 2 ó más palabras"
+        if (self.cantidadDePalabrasEnTitulo() < 2) {
+            throw new DomainException( message: "El titulo debe tener al menos 2 palabras" )
+        }
+    }
+    method cantidadDePalabrasEnTitulo() = titulo.words().size()
+    method validarDesarrollo() { //"debe tener desarrollo"
+        if (desarrollo == "" || desarrollo == null) {
+            throw new DomainException( message: "El desarrollo no puede estar vacio" )
+        }
+        
+}
+// ============= 4) ==============================
+    method esNueva() = (new Date() - fechaDePublicacion) <= 7 //la usamos en el medioDeComunicacion
+    method tieneAutorReciente() = autor.esReciente() //la usamos en el medioDeComunicacion
 }
 
 class ArticuloComun inherits Noticia {
@@ -97,6 +123,7 @@ class Chivo inherits Noticia {
     const property plataPagada
     
     override method condicionParticularDeTipo() = plataPagada > 2000000 //2M en numeros xd
+    override method aptaParaVago() = true //los chivos siempre son aptos para vagos
 }
 
 class Reportaje inherits Noticia {
@@ -125,7 +152,7 @@ cumplan con la condicion de que noticia.esCopada() sea true, cada noticia es un 
 
 //subclases porque es lo mismo que una noticia pero con caracteristicas particulares
 
-//2)
+//2) =========================================
 //necesitamos preguntarle a la noticia si es copada, sensacionalista, apta para vagos o si el titulo comienza con T
 class Periodista { //clase porque es un objeto con propiedades y comportamientos, que tiene diferente cada periodista
     const property fechaDeIngreso
@@ -134,6 +161,9 @@ class Periodista { //clase porque es un objeto con propiedades y comportamientos
     method prefiere(noticia) = preferencia.prefiere(noticia)
     //esto es para que el periodista le pregunte a su preferencia si prefiere esa noticia
     //es decir le pregunta al objeto cual es su preferencia y este le responde si prefiere o no esa noticia
+    // ============ 4) ==============
+    method esReciente() = (new Date() - fechaDeIngreso) <= 365 //ingreso hace un año o menos
+
 }
 
 object noticiaCopada {
@@ -149,7 +179,61 @@ object vago {
 }
 
 object joseDeZer {
-    method prefiere(noticia) = noticia.tituloComienzaConT("T")
+    method prefiere(noticia) = noticia.tituloComienzaCon("T")
 }
 
-        
+// =================== 3) ================== (un toque complejo este punto)
+/* Quien publica una noticia???? pensemos para quien estara dirigido esos metodos, va requerimientos
+--> Noticia no tiene sentido, una noticia no puede saber si es bien escrita o no, eso es responsabilidad del periodista que la publica
+--> Periodista: podria tener sentido, pero no es su responsabilidad, el periodista no escribe la noticia, solo la publica
+
+--> medioDeComunicacion: tiene sentido, porque es el que publica la noticia, y es el que tiene que validar si la noticia es bien escrita o no
+ademas . . .  "Una importante red multimedios quiere modernizar su diario digital, " al principio*/
+
+object medioDeComunicacion { //object y no class porque no necesitamos instanciar un medio de comunicacion, es unico
+    const noticias = [] 
+
+    method agregarNoticia(noticia) {
+        self.validarPublicacion(noticia)
+        noticias.validarBienEscrita(noticia)
+        noticias.add(noticia)
+    }
+
+// ============ 4) ==============
+
+//--> "..noticias que no prefiere.." por ende me fijo si la noticia es preferida por el autor o no
+//--> Como estamos hablando de la Noticia, el metodo esPreferidaPorAutor() va en la clase Noticia
+    method validarPublicacion(noticia) {
+        if (!noticia.esPreferidaPorAutor() &&
+            self.alcanzoLimiteDeNoPreferidas(noticia.autor())) {
+                throw new DomainException( message: "El periodista ya alcanzo el limite de noticias no preferidas por dia" )
+            }
+    }
+    method alcanzoLimiteDeNoPreferidas(autor) {
+    // count: recorre la lista 'noticias' y devuelve cuántas cumplen las 3 condiciones juntas
+    return noticias.count({ noti -> 
+        // 1. que la noticia sea del autor que estamos validando
+        noti.autor() == autor && 
+        // 2. que NO sea una noticia que el autor prefiera (el "!" invierte el booleano)
+        !autor.prefiere(noti) &&
+        // 3. Que la noticia haya sido publicada hoy (new Date() es la fecha actual)
+        noti.esDeLaFecha(new Date())
+    }) >= 2 // Devuelve true si el contador es 2 o más
+}
+    method periodistaRecientesQuePublicaron() {
+        // 1. Obtenemos la lista filtrada de noticias (del mtodo de abajo)
+        return self.noticiasNuevasDePeriodistasRecientes()
+            // 2. map: Transformamos la lista de 'noticias' en una lista de 'autores'
+            .map({ noticia -> noticia.autor() })  //map toma cada noticia y devuelve su autor, transformando la lista de noticias en una lista de autores
+            // 3. asSet: Convierte la lista en un Conjunto para eliminar los repetidos
+            // (Si un periodista escribió 5 noticias, acá aparece una sola vez)
+            .asSet()
+    }
+
+    method noticiasNuevasDePeriodistasRecientes() {
+        // filter: Selecciona solo las noticias que cumplen AMBAS condiciones
+        return noticias.filter({ noticia -> 
+            noticia.esNueva() && noticia.tieneAutorReciente()
+        })
+    }
+}
