@@ -23,7 +23,7 @@ class ObraPublica inherits Causa {
 
 class CausaCompleja inherits Causa {
     const property subCausas = [] 
-    override method montoExtra() = subCausas.sum(subCausa => subCausa.montoExtra()) 
+    override method montoExtra() = subCausas.sum(subCausa -> subCausa.montoExtra()) 
 }
 
 class FuncionarioPublico {
