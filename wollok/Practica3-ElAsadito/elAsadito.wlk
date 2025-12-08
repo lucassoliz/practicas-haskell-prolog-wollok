@@ -46,7 +46,7 @@ class Persona {
     }
 
     method quitarElementos(elementos) {
-        elementosCercanos.removeAllSuchThat { elementoCercano -> elementos.contains(elementoCercano) }
+        elementosCercanos.removeAllSuchThat { elementoCercano => elementos.contains(elementoCercano) }
     }
 
     method primerElementoCercano() = elementosCercanos.head() // devuelve el primer elemento disponible
@@ -59,7 +59,7 @@ class Persona {
     }
 
     // =================== 1.4 Estado ==================
-    method estaPipon() = comidas.any { comida -> comida.esPesada() } // True si alguna comida > 500 calorías
+    method estaPipon() = comidas.any { comida => comida.esPesada() } // True si alguna comida > 500 calorías
     method comioAlgo() = !comidas.isEmpty()
     method laPasaBien() = self.comioAlgo() && self.lapasaBienPersonalmente() // delega el criterio individual
     method lapasaBienPersonalmente()  // primitiva, polimorfismo
@@ -82,7 +82,7 @@ object moni inherits Persona {
 }
 
 object facu inherits Persona {
-    override method lapasaBienPersonalmente() = comidas.any { comida -> comida.esCarne() }
+    override method lapasaBienPersonalmente() = comidas.any { comida => comida.esCarne() }
 }
 
 object vero inherits Persona {
@@ -168,7 +168,7 @@ class Alternado {
 class AceptacionCombinada {
     const property criteriosDeAceptacion = []
     method agregarCriterios(criterios) = criteriosDeAceptacion.addAll(criterios)
-    method acepta(comida) = criteriosDeAceptacion.all { criterio -> criterio.acepta(comida) }
+    method acepta(comida) = criteriosDeAceptacion.all { criterio => criterio.acepta(comida) }
 }
 
 /* =================== 6) ==================

@@ -33,7 +33,7 @@ class ObraPublica inherits Causa {
 class CausaCompleja inherits Causa {
     const property subCausas = [] //SERIE de sub-causas que forman la causa compleja --> LISTA
 //ej: causaCompleja = CausaCompleja(montoBase = 2, caratula = "Red de corrupcion Z", jueces = [juez1, juez2], subCausas = [causaSoborno, causaObraPublica])
-    override method montoExtra() = subCausas.sum( subCausa => subCausa.montoExtra() ) 
+    override method montoExtra() = subCausas.sum({ subCausa => subCausa.montoExtra() }) 
     //convierte la lista de subCausas en una lista de montos extra y los suma
 }
 
@@ -50,7 +50,7 @@ class FuncionarioPublico {
 
     method validarQuePuedeComerseCausa(causa) {
         if (!self.puedeComerseCausa(causa)) {
-            throw new DomainException(message: "No puede comerse la causa: " + causa.caratula) //dicha causa accdedemos a su caratula
+            throw new DomainException(message= "No puede comerse la causa: " + causa.caratula()) //dicha causa accdedemos a su caratula
     }}
 //================ PUNTO 4 ==========================
     const property propuestas = [] 
@@ -82,11 +82,11 @@ class Ministro inherits FuncionarioPublico {
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 PROPUESTA:*/
 
-object PoderEjecutivo {
+object poderEjecutivo {
     const property juecesAmigos = [] //SERIE de jueces amigos del funcionario --> LISTA
 
     method cumpleCondicionesSegunTipo(funcionario, causa) =
-        causa.jueces.any({ juez => juecesAmigos.contains(juez) })
+        causa.jueces().any({ juez => juecesAmigos.contains(juez) })
 //verifica si alguno de los jueces de la causa es amigo del funcionario
 //ej: funcEjecutivo = FuncionarioPublico(patrimonioActual = 10, causas = [causaSoborno], rol = PoderEjecutivo)
 //funcEjecutivo.puedeComerseCausa(causaSoborno) --> true si juez1 es juez de causaSoborno 
@@ -95,12 +95,12 @@ object PoderEjecutivo {
    // const property palabrasClaves = ["aumento", "impuestos", "inflacion"]
     
     method aceptarPropuesta() = self.descripcionContiene(["aumento", "impuestos", "inflacion"])
-    method descripcionContiene(palabras) = palabras.any(palabraElemento -> descripcion.contains(palabraElemento))
+    method descripcionContiene(palabras) = palabras.any({palabraElemento => descripcion.contains(palabraElemento)})
 
 }
-object Ministro {
+object ministro {
     method cumpleCondicionesSegunTipo(funcionario, causa) =
-        funcionario.patrimonioActual > (0.5 * causa.perjuicioEconomico())
+        funcionario.patrimonioActual() > (0.5 * causa.perjuicioEconomico())
 //================ Punto 4 ============================
     method aceptarPropuesta(pedido) = pedido.diferenciaEnAnios() < 1
 }
@@ -133,6 +133,6 @@ class Propuesta {
     var property fechaCumplimiento
 //es "algo" que se encarga de modelar la propuesta
     method diferenciaEnAnios() = fechaCumplimiento.year() - fechaPresentacion.year()
-    method postergarCumplimiento() = fechaCumplimiento = fechaCumplimiento.plusYears(4)
+    method postergarCumplimiento() { fechaCumplimiento = fechaCumplimiento.plusYears(4)}
     
 }

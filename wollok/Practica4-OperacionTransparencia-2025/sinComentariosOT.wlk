@@ -23,7 +23,7 @@ class ObraPublica inherits Causa {
 
 class CausaCompleja inherits Causa {
     const property subCausas = [] 
-    override method montoExtra() = subCausas.sum(subCausa -> subCausa.montoExtra()) 
+    override method montoExtra() = subCausas.sum({subCausa => subCausa.montoExtra()}) 
 }
 
 class FuncionarioPublico {
@@ -34,7 +34,7 @@ class FuncionarioPublico {
     method puedeComerseCausa(causa) = patrimonioActual > 0 and rol.cumpleCondicionesSegunTipo(self,causa) 
     method validarQuePuedeComerseCausa(causa) {
         if (!self.puedeComerseCausa(causa)) {
-            throw new DomainException(message: "No puede comerse la causa: " + causa.caratula) 
+            throw new DomainException(message= "No puede comerse la causa: " + causa.caratula()) 
     }}
     
     const property propuestas = [] 
@@ -46,15 +46,15 @@ class FuncionarioPublico {
 
 }
 
-object PoderEjecutivo {
+object poderEjecutivo {
     const property juecesAmigos = [] 
 
-    method cumpleCondicionesSegunTipo(funcionario, causa) = causa.jueces.any({ juez => juecesAmigos.contains(juez) })
+    method cumpleCondicionesSegunTipo(funcionario, causa) = causa.jueces().any({ juez => juecesAmigos.contains(juez) })
     method aceptarPropuesta() = self.descripcionContiene(["aumento", "impuestos", "inflacion"])
-    method descripcionContiene(palabras) = palabras.any(palabraElemento -> descripcion.contains(palabraElemento))
+    method descripcionContiene(palabras) = palabras.any({palabraElemento => descripcion.contains(palabraElemento)})
 }
-object Ministro {
-    method cumpleCondicionesSegunTipo(funcionario, causa) = funcionario.patrimonioActual > (0.5 * causa.perjuicioEconomico())
+object ministro {
+    method cumpleCondicionesSegunTipo(funcionario, causa) = funcionario.patrimonioActual() > (0.5 * causa.perjuicioEconomico())
     method aceptarPropuesta(pedido) = pedido.diferenciaEnAnios() < 1
 }
 

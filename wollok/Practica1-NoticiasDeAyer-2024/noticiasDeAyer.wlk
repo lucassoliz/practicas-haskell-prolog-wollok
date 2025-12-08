@@ -69,7 +69,7 @@ class Noticia {
         self.tituloContiene(["espectacular", "increíble", "grandioso"]) //usamos el metodo tituloContiene como AUXILIAR
 
     method tituloContiene(palabras) = 
-        palabras.any(palabraElementoLista -> titulo.contains(palabraElementoLista))   /* esto verifica si alguna de las palabras 
+        palabras.any({ palabraElementoLista => titulo.contains(palabraElementoLista) })   /* esto verifica si alguna de las palabras 
         esta contenida en el titulo de la noticia, si te fijas usamos any para que alcance con que una sola palabra
         ademas usamos el metodo: 
         contains que verifica si una cadena de texto esta dentro de otra cadena de texto  <--------------- !!
@@ -95,13 +95,13 @@ CONSTAINS: se fija si esa palabraElementoLista esta dentro del titulo EJ: titulo
     method esDeLaFecha(fecha) = fechaDePublicacion == fecha
     method validarBienEscrita() {//"un título que tenga 2 ó más palabras"
         if (self.cantidadDePalabrasEnTitulo() < 2) {
-            throw new DomainException( message: "El titulo debe tener al menos 2 palabras" )
+            throw new DomainException( message= "El titulo debe tener al menos 2 palabras" )
         }
     }
     method cantidadDePalabrasEnTitulo() = titulo.words().size()
     method validarDesarrollo() { //"debe tener desarrollo"
         if (desarrollo == "" || desarrollo == null) {
-            throw new DomainException( message: "El desarrollo no puede estar vacio" )
+            throw new DomainException( message= "El desarrollo no puede estar vacio" )
         }
         
 }
@@ -127,10 +127,10 @@ class Chivo inherits Noticia {
 }
 
 class Reportaje inherits Noticia {
-    const property entrevistados
+    const property entrevistado
 
     override method condicionParticularDeTipo() =
-        entrevistados.size().odd() //de entrevistado se fija la cantidad de letras con size() y se fija si es impar con odd()
+        entrevistado.size().odd() //de entrevistado se fija la cantidad de letras con size() y se fija si es impar con odd()
 // ============ 2) ==============
     override method esSensacionalista() = super() && entrevistado == "Dibu Martínez"  
     //pense tambien como && self.tituloContiene(["Dibu Martínez"])
@@ -141,7 +141,7 @@ class Cobertura inherits Noticia {
     const property noticiasRelacionadas = []  // lista por ser varias noticias relacionadas a la vez
     
     override method condicionParticularDeTipo() =
-        noticiasRelacionadas.all(noticia -> noticia.esCopada())
+        noticiasRelacionadas.all({ noticia => noticia.esCopada() })
 /* all verifica que todas las noticias relacionadas cumplan con la condicion de ser copadas
    Se lee como:
 Che toma la lista de noticias relacionadas, te tenes que fijar que todas (all) las noticias (noticia ->) 
@@ -175,7 +175,7 @@ object noticiaSensacionalista {
 }
 
 object vago {
-    method prefiere(noticia) = noticiaa.aptaParaVago()
+    method prefiere(noticia) = noticia.aptaParaVago()
 }
 
 object joseDeZer {
@@ -206,12 +206,12 @@ object medioDeComunicacion { //object y no class porque no necesitamos instancia
     method validarPublicacion(noticia) {
         if (!noticia.esPreferidaPorAutor() &&
             self.alcanzoLimiteDeNoPreferidas(noticia.autor())) {
-                throw new DomainException( message: "El periodista ya alcanzo el limite de noticias no preferidas por dia" )
+                throw new DomainException( message= "El periodista ya alcanzo el limite de noticias no preferidas por dia" )
             }
     }
     method alcanzoLimiteDeNoPreferidas(autor) {
     // count: recorre la lista 'noticias' y devuelve cuántas cumplen las 3 condiciones juntas
-    return noticias.count({ noti -> 
+    return noticias.count({ noti => 
         // 1. que la noticia sea del autor que estamos validando
         noti.autor() == autor && 
         // 2. que NO sea una noticia que el autor prefiera (el "!" invierte el booleano)
@@ -222,17 +222,16 @@ object medioDeComunicacion { //object y no class porque no necesitamos instancia
 }
     method periodistaRecientesQuePublicaron() {
         // 1. Obtenemos la lista filtrada de noticias (del mtodo de abajo)
-        return self.noticiasNuevasDePeriodistasRecientes()
+        return self.noticiasNuevasDePeriodistasRecientes().map({ noticia => noticia.autor() }).asSet()
             // 2. map: Transformamos la lista de 'noticias' en una lista de 'autores'
-            .map({ noticia -> noticia.autor() })  //map toma cada noticia y devuelve su autor, transformando la lista de noticias en una lista de autores
+          //map toma cada noticia y devuelve su autor, transformando la lista de noticias en una lista de autores
             // 3. asSet: Convierte la lista en un Conjunto para eliminar los repetidos
             // (Si un periodista escribió 5 noticias, acá aparece una sola vez)
-            .asSet()
     }
 
     method noticiasNuevasDePeriodistasRecientes() {
         // filter: Selecciona solo las noticias que cumplen AMBAS condiciones
-        return noticias.filter({ noticia -> 
+        return noticias.filter({ noticia => 
             noticia.esNueva() && noticia.tieneAutorReciente()
         })
     }
