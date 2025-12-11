@@ -1,3 +1,4 @@
+//me gusto mas como quedo la otra version, dejo esta version un poco rebuscada pero funcional
 /*
 LOS JUGADORES
 -- PUNTO 1
@@ -114,4 +115,36 @@ class Sabelotodo inherits JugadorHabitue {
 		// "super" ya chequea: Fáciles O (Expertas/Medias de sus categorías).
 		// Nosotros le agregamos: O Medias (todas).
 
+}
+
+//PUNTO 4
+
+/*
+Sobre RondaSubita: 
+
+*/
+
+
+class Ronda {
+	method preguntas()
+	method dificultad() 
+}
+
+// RondaNormal y RondaSubita quedan igual porque su diseño es correcto.
+
+class RondaRapida inherits Ronda {
+	// CAMBIO: Definimos las preguntas como un atributo fijo al iniciar.
+	// Esto desacopla la lógica de la fuente global en cada llamada.
+	const preguntas 
+	
+	// Opción A: Pasarlas en el constructor (Inyección de Dependencia)
+	// new RondaRapida(preguntas = repositorio.preguntasCortas().take(5))
+	
+	// Opción B (Si queremos mantener el default pero hacerlo testeable):
+	// Inicializamos en el atributo, pero permitimos cambiarlo si fuera necesario
+	// o simplemente calculamos "take(5)" una sola vez al nacer el objeto.
+	
+	override method preguntas() = preguntas
+	
+	override method dificultad() = 3
 }
