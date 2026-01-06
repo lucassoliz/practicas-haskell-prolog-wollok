@@ -1,3 +1,4 @@
+//PUNTO 1
 //estructura basica del enunciado general
 class Videojuego {
     const property titulo //encapsulamiento 
@@ -58,4 +59,16 @@ class CriterioFlexible {
     
     // Le gusta si CUALQUIERA de sus criterios internos se cumple
     method leGusta(vj) = criteriosPosibles.any({ c => c.leGusta(vj) })
+}
+// PUNTO 2 ----------------------------------------------------
+//Usaremos HERENCIA para reutilizar la logica de los integrantes (clave el "ADEMAS")
+class ComiteExigente inherits Comite {
+    const property generosDestacados = #{}
+
+    override method todosLoPrefieren(videojuego) =
+        super(videojuego) and self.cumpleGenerosDestacados(videojuego)
+    
+
+    method cumpleGenerosDestacados(videojuego) =
+        videojuego.generos().filter({ gene => generosDestacados.contains(gene) }).size() >= 2
 }
