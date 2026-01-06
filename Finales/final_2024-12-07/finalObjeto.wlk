@@ -72,3 +72,22 @@ class ComiteExigente inherits Comite {
     method cumpleGenerosDestacados(videojuego) =
         videojuego.generos().filter({ gene => generosDestacados.contains(gene) }).size() >= 2
 }
+
+// PUNTO 3 ----------------------------------------------------
+//Aclaraciones de conceptos usados:
+/*
+Polimorfismo: El Comite trata polimorficamente a sus integrantes
+No le importa si el integrante evalua por año como Maria o ppr desarrolladora y genero como Juan o pedro
+solo envia sin mas el mensaje "evaluaPositivamente(videojuego)" y confia en que el integrante lo entendera
+
+Composicion y Strategy: El jugador no tiene el coddigo de evaluacion
+sino que tiene un atributo "criterio" que es quien maneja la logica de evaluacion
+Esto permite cambiar la forma de evaluar en tiempo de ejecucion
+
+Encapsulamiento: El Comite no conoce los atributos internos de los jugadores ni como deciden que le gusta
+Solo conoce la interfaz publica del metodo de evaluacion
+
+Herencia: Se utilizo herencia en el ComiteExigente para especializar el comportamiento de 
+todosLoPrefieren() sin reescribir toda la logica del Comite base
+
+*/
