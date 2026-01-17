@@ -1,0 +1,247 @@
+import example.*
+
+// ======== Los Instrumentos ========
+
+// ==== Guitarra Fender - Todos los integrantes ====
+describe "Tests para la fender"{
+  // Correccion: para evitar estar atado al valor especifico para definir el escenario que estan testeando
+  // pueden poner en la descripcion que la fender negra tiene un costo especial, o una fender no negra no tiene un costo especial o costo mas barato
+  test "Fender Negra siempre esta afinada"{
+    fender.color("negra")
+    assert.that(fender.estaAfinado())
+  }
+  test "Fender roja no esta afinada"{
+    fender.color("roja")
+    assert.notThat(fender.estaAfinado())
+  }
+  test "Fender Negra vale 15"{
+    fender.color("negra")
+    assert.equals(15, fender.cuantoCuesta())
+  }
+  test "Fender Roja vale 10"{
+    fender.color("roja")
+    assert.equals(10, fender.cuantoCuesta())
+  }
+  test "Fender es valiosa"{
+    assert.that(fender.esValioso())
+  }
+}
+
+// ==== Trompeta Jupiter - Integrante 1 ====
+// Correccion: para evitar estar atado al valor de la temperatura ambiente pueden poner en la descripcion
+// que la temperatura ambiente es maxima agradable o minima agradable o no es agradable por fresca o por calurosa 
+describe "Tests para la Trompeta Jupiter" {
+  test "Jupiter a 20 grados esta afinada" {
+    jupiter.revisarTermometro(20)
+    assert.that(jupiter.estaAfinado())
+  }
+  test "Jupiter a 25 grados esta afinada" {
+    jupiter.revisarTermometro(25)
+    assert.that(jupiter.estaAfinado())
+  }
+  test "Jupiter a 19 grados no esta afinada" {
+    jupiter.revisarTermometro(19)
+    assert.notThat(jupiter.estaAfinado())
+  }
+  test "Jupiter a 26 grados no esta afinada" {
+    jupiter.revisarTermometro(26)
+    assert.notThat(jupiter.estaAfinado())
+  }
+  test "Jupiter a 19 grados, y la afinamos, pasa a estar afinada" {
+    jupiter.revisarTermometro(19)
+    jupiter.afinar()
+    assert.that(jupiter.estaAfinado())
+  }
+  test "Jupiter sin sardina cuesta 30 chelines" {
+    jupiter.tieneSardina(false)
+    assert.equals(30, jupiter.cuantoCuesta())
+  }
+  test "Jupiter con sardina cuesta 35 chelines" {
+    jupiter.tieneSardina(true)
+    assert.equals(35, jupiter.cuantoCuesta())
+  }
+  test "Jupiter no es valiosa" {
+    assert.equals(false, jupiter.esValioso())
+  }
+}
+
+// ==== Piano Bechstein - Integrante 2 ====
+describe "Tests para el Piano Bechstein" {
+  // Correccion: para evitar estar atado al valor especifico de la habitacion es grande o chica sin definir un numero en especifico
+  test "Piano en habitacion 5x5 esta afinado" {
+    bechstein.anchoHabitacion(5)
+    bechstein.largoHabitacion(5)
+    assert.that(bechstein.estaAfinado())
+  }
+  test "Piano en habitacion chica (20 metros cuadrados) no esta afinado" {
+    bechstein.anchoHabitacion(4)
+    bechstein.largoHabitacion(5)
+    assert.notThat(bechstein.estaAfinado())
+  }
+  test "Costo del piano en habitacion 5x5 es 10" {
+    bechstein.anchoHabitacion(5)
+    bechstein.largoHabitacion(5)
+    assert.equals(10, bechstein.cuantoCuesta())
+  }
+  test "Piano es valioso en habitacion inicial de 5x5" {
+    bechstein.anchoHabitacion(5)
+    bechstein.largoHabitacion(5)
+    assert.that(bechstein.esValioso())
+  }
+  test "Piano movido a habitacion chica (20 metros cuadrados) no es valioso" {
+    bechstein.anchoHabitacion(4)
+    bechstein.largoHabitacion(5)
+    assert.notThat(bechstein.esValioso())
+  }
+}
+// ==== Violin Stagg - Integrante 3 ====
+
+describe "Tests para el Violin Stagg"{
+  // Correccion: para evitar estar atados a un valor en especifico pueden decir que el violin tiene poco, algunos o muchos tremolos
+  // o un tipo de pintura bueno o no tan buena
+  test "Violin comienza con sin tremolos hechos"{
+    assert.equals(0, stagg.cantidadTremolos())
+    }
+  test "Un violin con menos de 10 tremolos está afinado"{
+    stagg.cantidadTremolos(9)
+    assert.that(stagg.estaAfinado())
+  }
+  test "Un violin con 10 o mas tremolos esta desafinado"{
+    stagg.cantidadTremolos(10)
+    assert.notThat(stagg.estaAfinado())
+  }
+  test "Un violin comienza valiendo 20 chelines"{
+    assert.equals(20, stagg.cuantoCuesta())
+  }
+  test "Un violin con 2 tremolos cuesta 18 chelines"{
+    stagg.cantidadTremolos(2)
+    assert.equals(18, stagg.cuantoCuesta())
+  }
+  test "Un violin desafinado siempre cuesta 15 chelines"{
+    stagg.cantidadTremolos(10)
+    assert.equals(15, stagg.cuantoCuesta())
+  }
+  test "Un violin pintado a laca acrilica es valioso"{
+    stagg.tipoPintura("laca acrilica")
+    assert.that(stagg.esValioso())
+  }
+  test "Un violin pintado a latex satinado no es valioso"{
+    stagg.tipoPintura("latex satinado")
+    assert.notThat(stagg.esValioso())
+  }
+}
+// ======== Los Musicos ========
+
+// ==== Johann - Todos los integrantes ====
+describe "Tests para Johann" {
+  // Correccion: para estos casos alcanza con decir que tiene un instrumento caro o barato
+  test "Johann es feliz con trompeta Jupiter (que es cara)" {
+    johann.instrumentoActual(jupiter)
+    assert.that(johann.esFeliz())
+  }
+  test "Johann no es feliz con violin Stagg (sin tremolos, que no es cara)" {
+    stagg.cantidadTremolos(0)
+    johann.instrumentoActual(stagg)
+    assert.notThat(johann.esFeliz())
+  }
+
+}
+
+
+// ==== Wolfgang - Todos los integrantes ====
+describe "Tests para Wolfgang" {
+  //Correccion: aca pueden poner que wolfgang es feliz porque johann es feliz
+  test "Wolfgang es feliz si Johann tiene trompeta Jupiter" {
+    johann.instrumentoActual(jupiter)
+    assert.that(wolfgang.esFeliz())
+  }
+  test "Wolfgang no es feliz si Johann tiene violin Stagg (sin tremolos)" {
+    stagg.cantidadTremolos(0)
+    johann.instrumentoActual(stagg)
+    assert.notThat(wolfgang.esFeliz())
+  }
+}
+
+// ==== Antonio - Integrante 1 ====
+describe "Tests para Antonio" {
+  // Correccion: aca pueden poner en la descripcion que Antonio es feliz con un instrumento valioso
+  test "Antonio es feliz con piano Bechstein (que es valioso)" {
+    antonio.instrumentoActual(bechstein)
+    assert.that(antonio.esFeliz())
+  }
+  test "Antonio no es feliz con trompeta Jupiter (que no es valiosa)" {
+    antonio.instrumentoActual(jupiter)
+    assert.notThat(antonio.esFeliz())
+  }
+  test "Antonio es feliz con guitarra Fender (que es valiosa)" {
+    antonio.instrumentoActual(fender)
+    assert.that(antonio.esFeliz())
+  }
+}
+
+// ==== Giuseppe - Integrante 2 ====
+describe "Tests para Giuseppe" {
+  // Correccion: aca pueden poner que es feliz porque tiene un instrumento afinado
+  test "Giuseppe es feliz con guitarra Fender (que esta siempre afinada)" {
+    assert.that(giuseppe.esFeliz())
+  }
+  test "Giuseppe no es feliz con piano Bechstein en habitacion de un metro cuadrado" {
+    giuseppe.instrumentoActual(bechstein)
+    bechstein.anchoHabitacion(1)
+    bechstein.largoHabitacion(1)
+    assert.notThat(giuseppe.esFeliz())
+  }
+}
+
+// ==== Maddalena - Integrante 3 ====
+
+describe "Tests para Maddalena"{
+  // Correccion: aca pueden poner que es feliz porque tiene un instrumento con valor par
+  test "Maddalena es feliz si el violin Stagg no tiene tremolos"{
+    stagg.cantidadTremolos(0)
+    assert.that(maddalena.esFeliz())
+  }
+  test "Maddalena es no es feliz si el violin tiene tremolos impares"{
+    stagg.cantidadTremolos(1)
+    assert.notThat(maddalena.esFeliz())
+    }
+}
+
+// ==== Asociacion Musical ====
+describe "Tests para la Asociacion Musical"{
+  test "Asociacion Musical tiene 5 musicos" {
+    assert.equals(5, asociacionMusical.musicos().size())
+  }
+  test "Asociacion Musical quita 1 musico" {
+    asociacionMusical.quitarMusico(antonio)
+    assert.equals(4, asociacionMusical.musicos().size())
+  }
+  test "Asociacion Musical quita 3 musicos y agrega 1 musico" {
+    asociacionMusical.quitarMusico(antonio)
+    asociacionMusical.quitarMusico(giuseppe)
+    asociacionMusical.quitarMusico(maddalena)
+    asociacionMusical.agregarMusico(antonio)
+    assert.equals(3, asociacionMusical.musicos().size())
+  }
+  test "Todos los musicos son felices" {
+    johann.instrumentoActual(jupiter)
+    stagg.cantidadTremolos(0)
+    antonio.instrumentoActual(fender)
+    bechstein.anchoHabitacion(5)
+    bechstein.largoHabitacion(5)
+    assert.equals(5, asociacionMusical.musicosFelices().size())    
+  }
+  test "Ningun musico es feliz" {
+    johann.instrumentoActual(fender)
+    
+    antonio.instrumentoActual(jupiter)
+
+    jupiter.revisarTermometro(10) // desafinado
+    giuseppe.instrumentoActual(jupiter) // desafinado
+
+    jupiter.tieneSardina(true) // costo impar
+    maddalena.instrumentoActual(jupiter) // costo impar
+    
+    assert.equals(0, asociacionMusical.musicosFelices().size())    
+  }
+}
