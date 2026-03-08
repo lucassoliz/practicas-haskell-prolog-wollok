@@ -1,0 +1,2 @@
+:set -interactive-print=PdePreludat.prettyPrint
+:set prompt "> "

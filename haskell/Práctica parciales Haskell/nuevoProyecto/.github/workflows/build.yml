@@ -1,0 +1,32 @@
+# 
+on: [push]
+name: build
+jobs:
+  runhaskell:
+    name: Run Haskell
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: haskell-actions/setup@main
+        name: Setup Haskell Stack
+        with:
+          enable-stack: true
+          stack-no-global: true
+
+      - uses: actions/cache@v4
+        name: Cache stack files
+        with:
+          path: ~/.stack
+          key: ${{ runner.os }}-stack-global-${{ hashFiles('stack.yaml') }}-${{ hashFiles('package.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-stack-global-
+
+      - name: Build and test
+        run: |
+          set -euo pipefail
+          stack --version
+          stack setup
+          stack ghc -- --version
+          stack test
+# 
