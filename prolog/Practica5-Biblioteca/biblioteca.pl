@@ -36,7 +36,7 @@ pertenece(Elemento, [_|Resto]):- pertenece(Elemento, Resto).
 %========================================================
 %PUNTO 3
 
-prestamo(ana, "Sapiens", fecha(1,7,2025), prendiente). 
+prestamo(ana, "Sapiens", fecha(1,7,2025), pendiente). 
 prestamo(bruno, "El Principito", fecha(5,6,2025), fecha(25,6,2025)).
 prestamo(carla, "Cien años de soledad", fecha(12,8,2025),pendiente).
 prestamo(damian, "Veinte poemas de amor", fecha(20,7,2025), fecha(28,7,2025)).

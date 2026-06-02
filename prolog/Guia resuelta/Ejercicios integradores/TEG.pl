@@ -108,7 +108,7 @@ estaEnElHorno(Pais1):-
     ocupa(Pais1, Jugador1, _),
     ocupa(Pais2, Jugador2, _),
     Jugador1 \= Jugador2,
-    forall(sonLimitrofes(Pais1, Pais2), ocupa(Pais2, Jugador2)).
+    forall(sonLimitrofes(Pais1, Pais2), ocupa(Pais2, Jugador2, _)).
 
 %8
 esCaotico(Continente):-

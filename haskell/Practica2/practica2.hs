@@ -7,7 +7,7 @@ module Library where
 import PdePreludat
 
 doble :: Number -> Number
-doble numero = numero + numerator
+doble numero = numero + numero
 
 data Receta = Receta {
     nombreReceta :: String,

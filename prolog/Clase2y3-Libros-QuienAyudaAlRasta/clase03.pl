@@ -165,7 +165,7 @@ nacionalidad(isaacAsimov, rusa).
 % Opción 1
 
 esObraRioplatense(Obra) :-
-  escribio(Obra, Autor),
+  escribio(Autor, Obra),
   nacionalidad(Autor, Nacionalidad),
   platense(Nacionalidad).
 
@@ -175,7 +175,7 @@ platense(uruguaya).
 % Opción 2 - Repite lógica
 
 esRioPlatense(Obra) :-
-	escribio(Obra, AutorOAutora),
+	escribio(AutorOAutora, Obra),
 	esArtistaPlatense(AutorOAutora).
 
 esArtistaPlatense(Artista) :-

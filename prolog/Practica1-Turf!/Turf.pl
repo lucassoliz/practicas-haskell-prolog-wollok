@@ -14,8 +14,8 @@ caballo(yatasto).
 caballeriza(valdivieso, elTute).
 caballeriza(falero, elTute).
 caballeriza(lezcano, lasHormigas).
-caballeriza(baratucci, elCharabon).
-caballeriza(leguisamos, elCharavon).
+caballeriza(beratucci, elCharabon).
+caballeriza(leguisamon, elCharabon).
 
 gano(botafogo, granPremioNacional).
 gano(botafogo, granPremioRepublica).
@@ -26,7 +26,7 @@ gano(matBoy, granPremioCriadores).
 prefiere(botafogo, Jockey):-
     jockey(Jockey, _ , Peso), %dame el peso de este jockey ¿Pesa menos de 53?
     Peso < 52.
-prefiere(botafogo, baratussi). %¿Es baratucci?
+prefiere(botafogo, beratucci). %¿Es baratucci?
 
 prefiere(oldMan,Jockey):-
     jockey(Jockey, _ , _), %para hacer preguntas existenciales sobre los jockeys 
@@ -98,7 +98,7 @@ apuestaGanadora(ganador(Caballo), Resultados):-
     salioPrimero(Caballo, Resultados).
 %hizo una apusta de tipo ganador con el caballo X, y X salio primero
 
-apustaGanadora(segundo(Caballo), Resultados):-
+apuestaGanadora(segundo(Caballo), Resultados):-
     salioPrimero(Caballo, Resultados).
 apuestaGanadora(segundo(Caballo), Resultados):-
     salioSegundo(Caballo, Resultados).
@@ -145,8 +145,8 @@ comprarCaballo(Color, CaballosElegir):-
 /*Lectura: Te pido color marron, dame el Crin del caballo marron,
 dame los caballos de ese crin // si cambiamos el orden de las condiciones no afecta */
         CaballosDeEseColor),
-          combinar(CaballosPosibles, Caballos), %opciones a elegir
-  Caballos \= []. %POR LO MENOS UN CABALLO ----> NO VACIO
+          combinar(CaballosDeEseColor, CaballosElegir), %opciones a elegir
+  CaballosElegir \= []. %POR LO MENOS UN CABALLO ----> NO VACIO
 
 
 

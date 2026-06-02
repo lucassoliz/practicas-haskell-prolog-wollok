@@ -1,0 +1,21 @@
+# Haskell / stack / cabal
+.stack-work/
+dist/
+dist-newstyle/
+*.hi
+*.o
+*.dyn_hi
+*.dyn_o
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editores
+.idea/
+*.iml
+.vscode/

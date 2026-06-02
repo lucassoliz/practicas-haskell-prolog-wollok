@@ -259,13 +259,13 @@ puntajeDelAutor(Autor, Puntaje) :-
 bestSellerDeAutor(Autor, BestSellers) :-
     % Restringe el dominio a un Autor particular
     escribio(Autor, _),
-    findall(Obra, escribioBestSeller(Autor, Obra), Lista).
+    findall(Obra, escribioBestSeller(Autor, Obra), BestSellers).
     % ALT (podría ser más declarativo):
     % findall(Obra, (escribio(Autor, Obra), esBestSeller(Obra)), Lista).
 
 cantidadDeBestSeller(Autor, Cantidad) :-
     bestSellerDeAutor(Autor, BestSellers),
-    length(bestSellers, Cantidad).
+    length(BestSellers, Cantidad).
 
     % listaDeObras(Autor, Lista),
     % findall(Autor, esBestSeller, Lista)
@@ -274,8 +274,8 @@ cantidadDeBestSeller(Autor, Cantidad) :-
     %%length([esDeGenero(Autor, Obra)], Cantidad),
     %%Puntaje is 3 * Cantidad.
 
-esDeGenero(sandman, fantastico([yelmo, bolsaDeArena, rubi]).
-esDeGenero(percyJackson, fantastico([lapicera, zapatillas, mp3]).
+esDeGenero(sandman, fantastico([yelmo, bolsaDeArena, rubi])).
+esDeGenero(percyJackson, fantastico([lapicera, zapatillas, mp3])).
 
 esMacanudo(fantastico(Lista)) :-
     member(mp3, Lista).
