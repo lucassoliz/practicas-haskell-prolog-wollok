@@ -30,7 +30,7 @@ puntajeReceta :: Receta -> Number
 puntajeReceta receta 
     | ((>60) . tiempoCoccion) receta = 90
     | ((<2) . length . ajustes) receta = ( (*7) . length . nombreReceta) receta + ( (*4) . length . comentariosJueces) receta
-    | otherwise = (*5) . cantidadMinimaIngredientes receta
+    | otherwise = ((*5) . cantidadMinimaIngredientes) receta
 
 {-ajustePendientes :: Receta -> Bool
 ajustePendientes receta = (<2) . length . ajustes receta -}
@@ -47,16 +47,16 @@ eliminarAjusteMasReciente receta = receta {
 
 verificarAjustePendientes :: Trabajo
 verificarAjustePendientes receta = receta { 
-    ajustes = not . null . ajustes $ receta}
+    enRevision = not . null . ajustes $ receta}
 
 mejoraDeSabor :: Number -> Trabajo
 mejoraDeSabor cantidadEspecia receta = receta { 
-    tiempoCoccion = min 60 . (+ tiempoCoccion receta ) . ( (*10). cantidadEspecia ) }
+    tiempoCoccion = min 60 (tiempoCoccion receta + cantidadEspecia * 10) }
 
 -- cuidado en caer en los negativos, para eso estan los tester
 reduccionDeIngredientes :: Number -> Trabajo
 reduccionDeIngredientes cantidad receta = receta {
-    cantidadMinimaIngredientes = max 0 . ( (- cantidad) . cantidadMinimaIngredientes receta ) , 
+    cantidadMinimaIngredientes = max 0 (cantidadMinimaIngredientes receta - cantidad) , 
     comentariosJueces = comentariosJueces receta ++ ["mas simple"]
 }
 comentarioDePresentacion :: Trabajo
@@ -68,10 +68,10 @@ ajusteBasico = mejoraDeSabor 2 . reduccionDeIngredientes 2
 
 -- Punto 3: Recetas con ajustes
 platoBomba ::  Receta -> Bool
-platoBomba = any (>3) . duracionAjuste . ajustes
+platoBomba = any ((>3) . duracionAjuste) . ajustes
 
 recetaFueraDeConcurso :: Receta -> Bool
-recetaFueraDeConcurso = (== 6) . sum . duracionAjuste . ajuste
+recetaFueraDeConcurso = (== 6) . sum . map duracionAjuste . ajustes
 
 masterchefNoEsistis :: [Receta] -> Bool
 masterchefNoEsistis= all (null . ajustes) . filter ((>10) . length . nombreReceta)

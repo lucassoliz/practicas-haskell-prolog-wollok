@@ -50,9 +50,9 @@ tienePrestamoPendiente(Lector, Libro):-
 
 %=======================================================
 %PUNTO 4
-evento("Noche de Garcia Maequez", novela, fecha(14,9,2025), gabrielGarciaMaequez).
-evento("Encuentro de poesia", poesia, fecha(22,9,2025), pabloNeruda).
-evento("Ciencia ficcion en la Biblioteca", cienciaFiccion, fecha(30,9,2025), isaacAsimov).
+evento("Noche de Garcia Marquez", novela, fecha(14,9,2025), "Gabriel García Márquez").
+evento("Encuentro de poesia", poesia, fecha(22,9,2025), "Pablo Neruda").
+evento("Ciencia ficcion en la Biblioteca", cienciaFiccion, fecha(30,9,2025), "Isaac Asimov").
 
 puedeParticipar(Lector, Evento):-
     evento(Evento, _ , _, AutorPrincipal), %generador

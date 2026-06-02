@@ -2,7 +2,7 @@ module Test_Entrega2 where
   
 import Test.Hspec
 import Entrega2
-import Entrega1
+import Library
 import PdePreludat
 
 

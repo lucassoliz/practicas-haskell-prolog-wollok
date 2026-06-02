@@ -1,7 +1,7 @@
 module Entrega2 where
 
 import PdePreludat
-import Entrega1
+import Library
 
 -- [1.A INTEGRANTES 1,2,3 ]------|| arrancanONoArrancan ||----------------------------
 arrancanONoArrancan :: [Auto] -> [String]
@@ -53,12 +53,18 @@ data Pista = Pista {
 } deriving (Show)
 
 monza = Pista {
-  vuelta = [curvaTranca, tramoRectoClassic, zigZagLoco, curvaPeligrosa, tramito],
+  vuelta = [flip atravesarCurva curvaTranca, flip transitarTramoRecto tramoRectoClassic, flip transitarZigZag zigZagLoco, flip atravesarCurva curvaPeligrosa, flip transitarTramoRecto tramito],
   precio = 33
 }
 
 recorrerPista :: Pista -> Auto -> Auto
 recorrerPista pista auto = foldl (flip transitarTramo) auto (vuelta pista)
+
+transitarTramo :: Tramo -> Auto -> Auto
+transitarTramo tramo auto = tramo auto
+
+sinDesgasteChasis :: CriterioAuto
+sinDesgasteChasis = (== 0) . desgasteChasis
 
 {-
 3.B Integrante 1

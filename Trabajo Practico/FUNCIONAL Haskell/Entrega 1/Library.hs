@@ -114,14 +114,6 @@ data Curva = Curva
   }
   deriving (Show)
 
-data Pista = Pista
-  { nombre :: String,
-    pais :: String,
-    precioBaseEntrada :: Number,
-    tramos :: Tramos
-  }
-  deriving (Show)
-
 atravesarCurva :: Auto -> Curva -> Auto
 atravesarCurva auto curva =
   auto
@@ -212,14 +204,6 @@ casiCurva = ZigZag {cambioDireccion = 1}
 -- [4.D. INTEGRANTE 3]--------- || TRAMO RULO || ------------------------------------------------
 data Rulo = Rulo
   { diametro :: Number
-  }
-  deriving (Show)
-
-data Tramos = Tramos
-  { curva :: Curva,
-    recto :: Recto,
-    zigzag :: TramoZigZag,
-    rulo :: Rulo
   }
   deriving (Show)
 

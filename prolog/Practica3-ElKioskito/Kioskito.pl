@@ -96,12 +96,12 @@ generarUnaCombinacion([_|ListaRestante], Combinacion):-
 %en "algun momento de ese dia", NO en que momento ---> No usamos horarioPuntual
 %que sea inversible
 
-quienAtiende(Persona, Dia):-
-    atiende(Persona, Dia, _), %generador
+quienAtiende(Personas, Dia):-
+    atiende(_, Dia, _), %generador
     findall(Persona, atiende(Persona, Dia, _), PersonaQueAtiende),
 %generamos todas las personas que atienden ese dia, y lo ponemos en una lista, para
 %hacer todas sus posibilidades (combinatoria)
-    generarUnaCombinacion(PersonaQueAtiende, Persona).
+    generarUnaCombinacion(PersonaQueAtiende, Personas).
 
 
   generarUnaCombinacion([], []).
